@@ -149,6 +149,22 @@ public class MovieCollection
       listToSort.set(possibleIndex, temp);
     }
   }
+
+  private void sortResult(ArrayList<String> listToSort)
+  {
+    for (int j = 1; j < listToSort.size(); j++)
+    {
+      String temp = listToSort.get(j);
+      int possibleIndex = j;
+      while (possibleIndex > 0 && temp.compareTo(listToSort.get(possibleIndex - 1)) < 0)
+      {
+        listToSort.set(possibleIndex,listToSort.get(possibleIndex - 1));
+        possibleIndex--;
+
+      }
+      listToSort.set(possibleIndex,temp);
+    }
+  }
   
   private void displayMovieInfo(Movie movie)
   {
@@ -185,6 +201,8 @@ public class MovieCollection
       }
     }
 
+    sortResult(list);
+
     ArrayList<String> list1 = new ArrayList<String>();
     for (int i = 0; i < list.size(); i++)
     {
@@ -194,18 +212,32 @@ public class MovieCollection
       }
     }
 
+    for (int i = 0; i < list1.size(); i++)
+    {
+      String cast1 = list1.get(i);
+
+      // this will print index 0 as choice 1 in the results list; better for user!
+      int choiceNum = i + 1;
+
+      System.out.println("" + choiceNum + ". " + cast1);
+    }
+    System.out.println("Which genre would you like to learn more about?");
+    System.out.print("Enter number: ");
+    int choice1 = scanner.nextInt();
+    scanner.nextLine();
+
+    searchTerm = list1.get(choice1-1);
+    System.out.println(searchTerm);
+
     ArrayList<Movie> results = new ArrayList<Movie>();
     for (int i = 0; i < movies.size(); i++)
     {
       String movieTitle = movies.get(i).getCast();
       movieTitle = movieTitle.toLowerCase();
 
-      for (int j = 0; j < list1.size(); j++)
-      {
-        if (movieTitle.indexOf(list1.get(j)) != -1)
+        if (movieTitle.indexOf(searchTerm) != -1)
         //add the Movie objest to the results list
         results.add(movies.get(i));
-      }
     }
     sortResults(results);
 
@@ -303,12 +335,26 @@ public class MovieCollection
       }
     }
 
+    System.out.println("List of Genres:");
+    sortResult(list);
+    for (int i = 0; i < list.size(); i++)
+    {
+      String cast = list.get(i);
 
-    System.out.println("List of Genres: " + list);
-    System.out.print("Enter a genre search term: ");
-    String searchTerm = scanner.nextLine();
-    searchTerm = searchTerm.toLowerCase();
+      // this will print index 0 as choice 1 in the results list; better for user!
+      int choiceNum = i + 1;
 
+      System.out.println("" + choiceNum + ". " + cast);
+    }
+    System.out.println("Which genre would you like to learn more about?");
+    System.out.print("Enter number: ");
+    int choice1 = scanner.nextInt();
+    scanner.nextLine();
+
+    String searchTerm = "";
+
+    searchTerm = list.get(choice1-1);
+    System.out.println(searchTerm);
 
     ArrayList<String> list1 = new ArrayList<String>();
     for (int i = 0; i < list.size(); i++)
@@ -318,12 +364,12 @@ public class MovieCollection
         list1.add(list.get(i));
       }
     }
+    System.out.println(list1);
 
     ArrayList<Movie> results = new ArrayList<Movie>();
     for (int i = 0; i < movies.size(); i++)
     {
       String movieTitle = movies.get(i).getGenres();
-      movieTitle = movieTitle.toLowerCase();
 
       for (int j = 0; j < list1.size(); j++)
       {
