@@ -14,6 +14,8 @@ public class Movie
   private double userRating;
   private int year;
   private int revenue;
+  private String producers;
+  private String companies;
   
   public Movie(String title, String cast, String director, String tagline,
                 String keywords, String overview, int runtime, String genres,
@@ -30,6 +32,16 @@ public class Movie
     this.userRating = userRating;
     this.year = year;
     this.revenue = revenue;
+  }
+
+  public Movie(String title, String cast, String director, String producers, String companies, int year)
+  {
+    this.title = title;
+    this.cast = cast;
+    this.director = director;
+    this.producers = producers;
+    this.companies = companies;
+    this.year = year;
   }
     
   public String getTitle()

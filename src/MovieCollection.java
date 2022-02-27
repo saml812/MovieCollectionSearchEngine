@@ -1,10 +1,14 @@
-import java.io.BufferedReader;
+
+import java.io.*;
+import java.util.Iterator;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public class MovieCollection
 {
@@ -502,7 +506,19 @@ public class MovieCollection
     System.out.println("\n ** Press Enter to Return to Main Menu **");
     scanner.nextLine();
   }
-  
+
+  private void kevinBaconCount()
+  {
+    ArrayList<Movie> list = new ArrayList<Movie>();
+    for (int i = 0; i < movies.size(); i++)
+    {
+      if (movies.get(i).getCast().indexOf("Kevin Bacon") != -1)
+      {
+        list.add(movies.get(i));
+      }
+    }
+  }
+
   private void importMovieList(String fileName)
   {
     try
@@ -510,13 +526,13 @@ public class MovieCollection
       FileReader fileReader = new FileReader(fileName);
       BufferedReader bufferedReader = new BufferedReader(fileReader);
       String line = bufferedReader.readLine();
-      
+
       movies = new ArrayList<Movie>();
-      
-      while ((line = bufferedReader.readLine()) != null) 
+
+      while ((line = bufferedReader.readLine()) != null)
       {
         String[] movieFromCSV = line.split(",");
-     
+
         String title = movieFromCSV[0];
         String cast = movieFromCSV[1];
         String director = movieFromCSV[2];
@@ -528,16 +544,123 @@ public class MovieCollection
         double userRating = Double.parseDouble(movieFromCSV[8]);
         int year = Integer.parseInt(movieFromCSV[9]);
         int revenue = Integer.parseInt(movieFromCSV[10]);
-        
+
         Movie nextMovie = new Movie(title, cast, director, tagline, keywords, overview, runtime, genres, userRating, year, revenue);
-        movies.add(nextMovie);  
+        movies.add(nextMovie);
       }
       bufferedReader.close();
     }
     catch(IOException exception)
     {
       // Print out the exception that occurred
-      System.out.println("Unable to access " + exception.getMessage());              
+      System.out.println("Unable to access " + exception.getMessage());
+    }
+  }
+
+  public void importMovieListJSON(String fileName) {
+    try {
+      FileReader fileReader = new FileReader(fileName);
+
+      movies = new ArrayList<Movie>();
+
+      Scanner scanner = new Scanner(new File(fileName));
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        //System.out.println(line);
+
+        String castList = "";
+        String directorsList = "";
+        String producersList = "";
+        String companiesList = "";
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) jsonParser.parse(line);
+
+        //title
+        String title = (String) jsonObject.get("title");
+        //cast
+        if (jsonObject.get("cast") != null)
+        {
+          JSONArray cast = (JSONArray) jsonObject.get("cast");
+          Iterator<String> iterator = cast.iterator();
+          while (iterator.hasNext()) {
+            String caster = iterator.next();
+            if (caster.indexOf("[") != -1)
+            {
+              caster = caster.substring(2);
+              caster = caster.substring(0, caster.length() - 2);
+              castList += caster + "|";
+            }
+            else
+            {
+              castList += caster + "|";
+            }
+          }
+        }
+
+        //directors
+        if (jsonObject.get("directors") != null) {
+          JSONArray directors = (JSONArray) jsonObject.get("directors");
+          Iterator<String> iterator1 = directors.iterator();
+          while (iterator1.hasNext()) {
+            String director = iterator1.next();
+            if (director.indexOf("[") != -1)
+            {
+              director = director.substring(2);
+              director = director.substring(0, director.length() - 2);
+              directorsList += director + "|";
+            }
+            else
+              directorsList += director + "|";
+          }
+        }
+        //producers
+        if (jsonObject.get("producers") != null) {
+          JSONArray producers = (JSONArray) jsonObject.get("producers");
+          Iterator<String> iterator2 = producers.iterator();
+          while (iterator2.hasNext()) {
+            String producer = iterator2.next();
+            if (producer.indexOf("[") != -1)
+            {
+              producer = producer.substring(2);
+              producer = producer.substring(0, producer.length() - 2);
+              producersList += producer + "|";
+            }
+            else
+              producersList += producer + "|";
+          }
+        }
+        //companies
+        if (jsonObject.get("companies") != null) {
+          JSONArray companies = (JSONArray) jsonObject.get("companies");
+          Iterator<String> iterator3 = companies.iterator();
+          while (iterator3.hasNext()) {
+            String company = iterator3.next();
+            if (company.indexOf("[") != -1)
+            {
+              company = company.substring(2);
+              company = company.substring(0, company.length() - 2);
+              companiesList += company + "|";
+            }
+            else
+              companiesList += company + "|";
+          }
+        }
+        //year
+        long year = 0;
+        if (jsonObject.get("year") != null) {
+          year = (long) jsonObject.get("year");
+        }
+        int year1 = (int) year;
+
+        Movie nextMovie = new Movie(title, castList, directorsList, producersList, companiesList, year1);
+        movies.add(nextMovie);
+      }
+
+      scanner.close();
+
+    } catch (FileNotFoundException | ParseException e) {
+      e.printStackTrace();
     }
   }
 }

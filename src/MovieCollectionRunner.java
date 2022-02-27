@@ -5,6 +5,7 @@ public class MovieCollectionRunner
     public static void main(String args[])
     {
         MovieCollection myCollection = new MovieCollection("src/movies_data.csv");
-        myCollection.menu();
+        //myCollection.menu();
+        myCollection.importMovieListJSON("src/movie_data.txt");
     }
 }
