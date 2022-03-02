@@ -17,7 +17,7 @@ public class MovieCollection
 
   public MovieCollection(String fileName)
   {
-    importMovieList(fileName);
+    importMovieListJSON(fileName);
     scanner = new Scanner(System.in);
   }
 
@@ -507,16 +507,267 @@ public class MovieCollection
     scanner.nextLine();
   }
 
-  private void kevinBaconCount()
+  private ArrayList<Movie> tier1()
   {
-    ArrayList<Movie> list = new ArrayList<Movie>();
+    ArrayList<Movie> tier1 = new ArrayList<Movie>();
     for (int i = 0; i < movies.size(); i++)
     {
       if (movies.get(i).getCast().indexOf("Kevin Bacon") != -1)
       {
-        list.add(movies.get(i));
+        tier1.add(movies.get(i));
       }
     }
+    return tier1;
+  }
+  private ArrayList<Movie> tier2()
+  {
+    ArrayList<Movie> tier1 = tier1();
+    ArrayList<Movie> tier2 = new ArrayList<Movie>();
+    ArrayList<String> cast = new ArrayList<String>();
+    for (int i = 0; i < tier1.size(); i++)
+    {
+      String[] castList = tier1.get(i).getCast().split("\\|");
+      for (int a = 0; a < castList.length; a++)
+      {
+        if (cast.indexOf(castList[a]) == -1)
+        {
+          cast.add(castList[a]);
+        }
+      }
+    }
+    for (int j = 0; j < cast.size(); j++)
+    {
+      for (int k = 0; k < movies.size(); k++)
+      {
+        if (movies.get(k).getCast().indexOf(cast.get(j)) != -1 && tier2.indexOf(movies.get(k)) == -1)
+        {
+          tier2.add(movies.get(k));
+        }
+      }
+    }
+    for (int i = 0; i < tier2.size(); i++)
+    {
+      for (int j = 0; j < tier1.size(); j++)
+      {
+        if (tier2.indexOf(tier1.get(j)) != -1)
+        {
+          tier2.remove(i);
+          j--;
+        }
+      }
+    }
+    return tier2;
+  }
+  private ArrayList<Movie> tier3()
+  {
+    ArrayList<Movie> tier2 = tier2();
+    ArrayList<Movie> tier3 = new ArrayList<Movie>();
+    ArrayList<String> cast1 = new ArrayList<String>();
+    //tier3
+    for (int i = 0; i < tier2.size(); i++)
+    {
+      String[] castList = tier2.get(i).getCast().split("\\|");
+      for (int a = 0; a < castList.length; a++)
+      {
+        if (cast1.indexOf(castList[a]) == -1)
+        {
+          cast1.add(castList[a]);
+        }
+      }
+    }
+
+    for (int j = 0; j < cast1.size(); j++)
+    {
+      for (int k = 0; k < movies.size(); k++)
+      {
+        if (movies.get(k).getCast().indexOf(cast1.get(j)) != -1 && tier3.indexOf(movies.get(k)) == -1)
+        {
+          tier3.add(movies.get(k));
+        }
+      }
+    }
+    System.out.println(tier3);
+    for (int i = 0; i < tier3.size(); i++)
+    {
+      for (int j = 0; j < tier2.size(); j++)
+      {
+        if (tier3.indexOf(tier2.get(j)) != -1)
+        {
+          tier3.remove(i);
+          j--;
+        }
+      }
+    }
+    return tier3;
+  }
+  private ArrayList<Movie> tier4()
+  {
+    ArrayList<Movie> tier3 = tier3();
+    ArrayList<Movie> tier4 = new ArrayList<Movie>();
+    ArrayList<String> cast2 = new ArrayList<String>();
+    //tier4
+    for (int i = 0; i < tier4.size(); i++)
+    {
+      String[] castList = tier4.get(i).getCast().split("\\|");
+      for (int a = 0; a < castList.length; a++)
+      {
+        if (cast2.indexOf(castList[a]) == -1)
+        {
+          cast2.add(castList[a]);
+        }
+      }
+    }
+    for (int j = 0; j < cast2.size(); j++)
+    {
+      for (int k = 0; k < movies.size(); k++)
+      {
+        if (movies.get(k).getCast().indexOf(cast2.get(j)) != -1 && tier4.indexOf(movies.get(k)) == -1)
+        {
+          tier4.add(movies.get(k));
+        }
+      }
+    }
+    for (int i = 0; i < tier4.size(); i++)
+    {
+      for (int j = 0; j < tier3.size(); j++)
+      {
+        if (tier4.indexOf(tier3.get(j)) != -1)
+        {
+          tier4.remove(i);
+        }
+      }
+    }
+    return tier4;
+  }
+  private ArrayList<Movie> tier5()
+  {
+    ArrayList<Movie> tier4 = tier4();
+    ArrayList<Movie> tier5 = new ArrayList<Movie>();
+    ArrayList<String> cast3 = new ArrayList<String>();
+    //tier5
+    for (int i = 0; i < tier4.size(); i++)
+    {
+      String[] castList = tier4.get(i).getCast().split("\\|");
+      for (int a = 0; a < castList.length; a++)
+      {
+        if (cast3.indexOf(castList[a]) == -1)
+        {
+          cast3.add(castList[a]);
+        }
+      }
+    }
+    for (int j = 0; j < cast3.size(); j++)
+    {
+      for (int k = 0; k < movies.size(); k++)
+      {
+        if (movies.get(k).getCast().indexOf(cast3.get(j)) != -1 && tier5.indexOf(movies.get(k)) == -1)
+        {
+          tier5.add(movies.get(k));
+        }
+      }
+    }
+    for (int i = 0; i < tier5.size(); i++)
+    {
+      for (int j = 0; j < tier4.size(); j++)
+      {
+        if (tier5.indexOf(tier4.get(j)) != -1)
+        {
+          tier5.remove(i);
+        }
+      }
+    }
+    return tier5;
+  }
+  private ArrayList<Movie> tier6()
+  {
+    ArrayList<Movie> tier5 = tier5();
+    ArrayList<Movie> tier6 = new ArrayList<Movie>();
+    ArrayList<String> cast4 = new ArrayList<String>();
+    //tier6
+    for (int i = 0; i < tier5.size(); i++)
+    {
+      String[] castList = tier5.get(i).getCast().split("\\|");
+      for (int a = 0; a < castList.length; a++)
+      {
+        if (cast4.indexOf(castList[a]) == -1)
+        {
+          cast4.add(castList[a]);
+        }
+      }
+    }
+    for (int j = 0; j < cast4.size(); j++)
+    {
+      for (int k = 0; k < movies.size(); k++)
+      {
+        if (movies.get(k).getCast().indexOf(cast4.get(j)) != -1 && tier6.indexOf(movies.get(k)) == -1)
+        {
+          tier6.add(movies.get(k));
+        }
+      }
+    }
+    for (int i = 0; i < tier6.size(); i++)
+    {
+      for (int j = 0; j < tier5.size(); j++)
+      {
+        if (tier6.indexOf(tier5.get(j)) != -1)
+        {
+          tier6.remove(i);
+        }
+      }
+    }
+    return tier6;
+  }
+
+  public int kevinBaconCount(String actorName)
+  {
+    int count = -1;
+    ArrayList<Movie> tier1 = tier1();
+    for (int i = 0; i < tier1.size(); i++) {
+      if (tier1.get(i).getCast().indexOf(actorName) != -1) {
+        return 1;
+      }
+    }
+    ArrayList<Movie> tier2 = tier2();
+    for (int j = 0; j < tier2.size(); j++)
+    {
+      if (tier2.get(j).getCast().indexOf(actorName) != -1)
+      {
+        return 2;
+      }
+    }
+    ArrayList<Movie> tier3 = tier3();
+    for (int j = 0; j < tier3.size(); j++)
+    {
+      if (tier3.get(j).getCast().indexOf(actorName) != -1)
+      {
+        return 3;
+      }
+    }
+    ArrayList<Movie> tier4 = tier4();
+    for (int j = 0; j < tier4.size(); j++)
+    {
+      if (tier4.get(j).getCast().indexOf(actorName) != -1)
+      {
+        return 4;
+      }
+    }
+    ArrayList<Movie> tier5 = tier5();
+    for (int j = 0; j < tier5.size(); j++)
+    {
+      if (tier5.get(j).getCast().indexOf(actorName) != -1)
+      {
+        return 5;
+      }
+    }
+    ArrayList<Movie> tier6 = tier6();
+    for (int j = 0; j < tier6.size(); j++)
+    {
+      if (tier6.get(j).getCast().indexOf(actorName) != -1)
+      {
+        return 6;
+      }
+    }
+    return count;
   }
 
   private void importMovieList(String fileName)
@@ -557,7 +808,8 @@ public class MovieCollection
     }
   }
 
-  public void importMovieListJSON(String fileName) {
+  public void importMovieListJSON(String fileName)
+  {
     try {
       FileReader fileReader = new FileReader(fileName);
 

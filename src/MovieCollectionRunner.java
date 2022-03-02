@@ -4,8 +4,8 @@ public class MovieCollectionRunner
 {
     public static void main(String args[])
     {
-        MovieCollection myCollection = new MovieCollection("src/movies_data.csv");
+        MovieCollection myCollection = new MovieCollection("src/movie_data.txt");
         //myCollection.menu();
-        myCollection.importMovieListJSON("src/movie_data.txt");
+        System.out.println("Kevin Bacon Degree is: " + myCollection.kevinBaconCount("Emma Stone"));
     }
 }
