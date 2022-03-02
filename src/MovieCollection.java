@@ -42,6 +42,7 @@ public class MovieCollection
       System.out.println("- see all movies of a (g)enre");
       System.out.println("- list top 50 (r)ated movies");
       System.out.println("- list top 50 (h)igest revenue movies");
+      System.out.println("- (d)grees of kevin bacon");
       System.out.println("- (q)uit");
       System.out.print("Enter choice: ");
       menuOption = scanner.nextLine();
@@ -78,6 +79,10 @@ public class MovieCollection
     else if (option.equals("h"))
     {
       listHighestRevenue();
+    }
+    else if (option.equals("d"))
+    {
+      kevinBaconCount();
     }
     else
     {
@@ -718,12 +723,17 @@ public class MovieCollection
     return tier6;
   }
 
-  public int kevinBaconCount(String actorName)
+  public int kevinBaconCount()
   {
+    System.out.print("Enter actor's name: ");
+    String actorName = scanner.nextLine();
+
     int count = -1;
     ArrayList<Movie> tier1 = tier1();
     for (int i = 0; i < tier1.size(); i++) {
       if (tier1.get(i).getCast().indexOf(actorName) != -1) {
+        count = 1;
+        System.out.println("Kevin Bacon Degree is: " + count);
         return 1;
       }
     }
@@ -732,6 +742,8 @@ public class MovieCollection
     {
       if (tier2.get(j).getCast().indexOf(actorName) != -1)
       {
+        count = 2;
+        System.out.println("Kevin Bacon Degree is: " + count);
         return 2;
       }
     }
@@ -740,6 +752,8 @@ public class MovieCollection
     {
       if (tier3.get(j).getCast().indexOf(actorName) != -1)
       {
+        count = 3;
+        System.out.println("Kevin Bacon Degree is: " + count);
         return 3;
       }
     }
@@ -748,6 +762,8 @@ public class MovieCollection
     {
       if (tier4.get(j).getCast().indexOf(actorName) != -1)
       {
+        count = 4;
+        System.out.println("Kevin Bacon Degree is: " + count);
         return 4;
       }
     }
@@ -756,6 +772,8 @@ public class MovieCollection
     {
       if (tier5.get(j).getCast().indexOf(actorName) != -1)
       {
+        count = 5;
+        System.out.println("Kevin Bacon Degree is: " + count);
         return 5;
       }
     }
@@ -764,10 +782,15 @@ public class MovieCollection
     {
       if (tier6.get(j).getCast().indexOf(actorName) != -1)
       {
+        count = 6;
+        System.out.println("Kevin Bacon Degree is: " + count);
         return 6;
       }
     }
-    return count;
+
+    System.out.println("\n ** Press Enter to Return to Main Menu **");
+    scanner.nextLine();
+    return -1;
   }
 
   private void importMovieList(String fileName)
